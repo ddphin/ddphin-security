@@ -1,6 +1,6 @@
 package com.ddphin.security.handler;
 
-import com.ddphin.security.endpoint.service.AJWTService;
+import com.ddphin.security.jwt.AJWTService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 

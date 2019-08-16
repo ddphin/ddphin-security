@@ -1,7 +1,7 @@
 package com.ddphin.security.provider;
 
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.ddphin.security.endpoint.service.AJWTService;
+import com.ddphin.security.jwt.AJWTService;
 import com.ddphin.security.token.AJwtAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.core.Authentication;

@@ -3,7 +3,7 @@ package com.ddphin.security.configurer;
 import com.ddphin.security.filter.AJwtAuthenticationFilter;
 import com.ddphin.security.handler.AJwtAuthenticationFailureHandler;
 import com.ddphin.security.handler.AJwtAuthenticationSuccessHandler;
-import com.ddphin.security.endpoint.service.AJWTService;
+import com.ddphin.security.jwt.AJWTService;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.HttpSecurityBuilder;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;

@@ -19,6 +19,7 @@ public interface AuthenticationService {
     List<? extends APermission> queryAllPermission();
 
     String queryValidCode(String mobile);
+    void removeValidCode(String mobile);
 
     Long nextUserId();
 

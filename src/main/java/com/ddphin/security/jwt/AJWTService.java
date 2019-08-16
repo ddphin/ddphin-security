@@ -1,4 +1,4 @@
-package com.ddphin.security.endpoint.service;
+package com.ddphin.security.jwt;
 
 import com.auth0.jwt.interfaces.DecodedJWT;
 

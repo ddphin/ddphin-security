@@ -31,6 +31,7 @@ public class AIdentityMobileValidCodeAuthenticator implements AIdentityAuthentic
         if (null == validCode || !validCode.equals(aIdentity.getCredentialValue())) {
             throw new BadCredentialsException("Authentication Failed");
         }
+        authenticationService.removeValidCode(mobile);
 
         AIdentifier uIdentifier =  authenticationService.queryIdentifier(aIdentity.getIdentifierType(), aIdentity.getIdentifierValue());
 
