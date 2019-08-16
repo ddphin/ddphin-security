@@ -11,26 +11,28 @@ import java.util.List;
  * @Author ddphin
  */
 public interface AuthenticationService {
+    // Identifier
     AIdentifier queryIdentifier(Integer identifierType, String identifierValue);
+    void saveIdentifier(Long userId, Integer identifierType, String identifierValue);
 
+    // Credential
     ACredential queryCredential(Long userId, Integer credentialType);
 
+    // Permission
     List<String> queryPermissionIdList(Long userId);
     List<? extends APermission> queryAllPermission();
 
+    // ValidCode
     String queryValidCode(String mobile);
     void removeValidCode(String mobile);
 
+    // Use
     Long nextUserId();
-
     void saveUser(Long userId, String invitationCode, String mobile);
     void saveUser(Long userId, String invitationCode, ASocialDetail socialInfo);
 
-    void saveIdentifier(Long userId, Integer identifierType, String identifierValue);
-
+    // Social
     ASocial querySocial(Long userId, Integer identifierType, Integer socialType);
-
-    void saveSocial(Long userId, Integer identifierType, Integer socialType, ASocialDetail socialInfo);
-
-    void updateSocial(Long userId, Integer identifierType, Integer socialType, ASocialDetail socialInfo);
+    void saveSocial(Long userId, Integer identifierType, Integer socialType, ASocialDetail socialDetail);
+    void updateSocial(Long userId, Integer identifierType, Integer socialType, ASocialDetail socialDetail);
 }
