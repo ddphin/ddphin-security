@@ -26,7 +26,7 @@ public interface AuthenticationService {
     String queryValidCode(String mobile);
     void removeValidCode(String mobile);
 
-    // Use
+    // User
     Long nextUserId();
     void saveUser(Long userId, String invitationCode, String mobile);
     void saveUser(Long userId, String invitationCode, ASocialDetail socialInfo);
