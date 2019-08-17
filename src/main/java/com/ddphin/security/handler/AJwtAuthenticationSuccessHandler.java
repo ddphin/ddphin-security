@@ -1,6 +1,7 @@
 package com.ddphin.security.handler;
 
 import com.ddphin.security.jwt.AJWTService;
+import com.ddphin.security.util.ResponseHelper;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
@@ -26,6 +27,6 @@ public class AJwtAuthenticationSuccessHandler
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         String token = jwtService.refresh();
-        response.setHeader("Authorization", token);
+        ResponseHelper.setToken(response, token);
     }
 }

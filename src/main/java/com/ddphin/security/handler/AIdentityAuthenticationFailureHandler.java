@@ -1,5 +1,6 @@
 package com.ddphin.security.handler;
 
+import com.ddphin.security.util.ResponseHelper;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -19,6 +20,6 @@ public class AIdentityAuthenticationFailureHandler implements AuthenticationFail
 
     @Override
     public void onAuthenticationFailure(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) {
-        httpServletResponse.setStatus(HttpStatus.UNAUTHORIZED.value());
+        ResponseHelper.setStatus(httpServletResponse, HttpStatus.UNAUTHORIZED);
     }
 }

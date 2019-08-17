@@ -1,6 +1,7 @@
 package com.ddphin.security.handler;
 
 import com.ddphin.security.jwt.AJWTService;
+import com.ddphin.security.util.RequestHelper;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
 
@@ -22,8 +23,7 @@ public class AJwtClearLogoutHandler implements LogoutHandler {
 
     @Override
     public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
-        String token = request.getHeader("Authorization");
-        token = token.replaceFirst("Bearer ", "");
+        String token = RequestHelper.getToken(request);
         jwtService.remove(token);
     }
 }
