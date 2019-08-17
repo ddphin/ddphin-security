@@ -44,11 +44,6 @@ public class AJwtAuthenticationFilter extends OncePerRequestFilter {
         }
     }
 
-    private String getJwtToken(HttpServletRequest request) {
-        String authInfo = request.getHeader("Authorization");
-        return authInfo.replaceFirst("Bearer ", "");
-    }
-
     @Override
     protected void doFilterInternal(
             HttpServletRequest request,
@@ -59,7 +54,7 @@ public class AJwtAuthenticationFilter extends OncePerRequestFilter {
             Authentication authResult = null;
             AuthenticationException failed = null;
             try {
-                String token = getJwtToken(request);
+                String token = RequestHelper.getToken(request);
                 String ip = RequestHelper.getIp(request);
                 AJwtAuthenticationToken authToken = new AJwtAuthenticationToken(token, ip);
                 authResult = this.getAuthenticationManager().authenticate(authToken);

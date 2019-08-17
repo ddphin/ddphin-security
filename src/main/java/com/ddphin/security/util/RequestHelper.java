@@ -5,6 +5,11 @@ import org.apache.commons.lang3.StringUtils;
 import javax.servlet.http.HttpServletRequest;
 
 public class RequestHelper {
+	public static String getToken(HttpServletRequest request) {
+		String token = request.getHeader("Authorization");
+		return token.replaceFirst("Bearer ", "");
+	}
+
 	public static String getIp(HttpServletRequest request) {
 		String ip = request.getHeader("X-Forwarded-For");
 		if(StringUtils.isNotEmpty(ip) && !"unKnown".equalsIgnoreCase(ip)){
