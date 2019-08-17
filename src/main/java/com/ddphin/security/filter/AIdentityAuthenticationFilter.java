@@ -41,13 +41,14 @@ public class AIdentityAuthenticationFilter extends AbstractAuthenticationProcess
             String identifierValue = jsonObj.getString("identifierValue");
             Integer credentialType = jsonObj.getInteger("credentialType");
             String credentialValue = jsonObj.getString("credentialValue");
-            Integer socialType = jsonObj.getInteger("socialType");
-            String socialValue = jsonObj.getString("socialValue");
-            JSONObject socialExtra = jsonObj.getJSONObject("socialExtra");
+            JSONObject data = jsonObj.getJSONObject("data");
             String invitationCode = jsonObj.getString("invitationCode");
+            String ip = RequestHelper.getIp(httpServletRequest);
 
             Assert.notNull(identifierType, "identifierType is required");
-            Assert.notNull(credentialType, "credentialType is required");
+            Assert.notNull(identifierValue, "identifierValue is required");
+            Assert.notNull(identifierType, "identifierType is required");
+            Assert.notNull(credentialValue, "credentialValue is required");
 
             identity.setIdentifierType(identifierType);
             identity.setIdentifierValue(identifierValue);
@@ -55,14 +56,8 @@ public class AIdentityAuthenticationFilter extends AbstractAuthenticationProcess
             identity.setCredentialType(credentialType);
             identity.setCredentialValue(credentialValue);
 
-            identity.setSocialType(socialType);
-            identity.setSocialValue(socialValue);
-
-            identity.setSocialExtra(socialExtra);
-
+            identity.setData(data);
             identity.setInvitationCode(invitationCode);
-
-            String ip = RequestHelper.getIp(httpServletRequest);
             identity.setIp(ip);
         }
         //封装到token中提交

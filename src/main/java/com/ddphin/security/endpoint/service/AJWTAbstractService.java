@@ -4,19 +4,15 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.ddphin.security.entity.AIdentifierType;
 import com.ddphin.security.entity.AIdentity;
-import com.ddphin.security.entity.ASocialType;
 import com.ddphin.security.jwt.AJWTService;
 import com.ddphin.security.token.AIdentityAuthenticationToken;
 import com.ddphin.security.token.AJwtAuthenticationToken;
 import org.joda.time.DateTime;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
-import java.util.Objects;
 
 /**
  * AJWTAbstractService
@@ -101,16 +97,10 @@ public abstract class AJWTAbstractService implements AJWTService {
 
     private String create(AIdentity identity, String[] authority) {
         try {
-            String[] audience;
-            if (null == identity.getSocialType()) {
-                audience = new String[]{Objects.requireNonNull(AIdentifierType.fromCode(identity.getIdentifierType())).name()};
-            }
-            else {
-                audience = new String[]{
-                        Objects.requireNonNull(AIdentifierType.fromCode(identity.getIdentifierType())).name(),
-                        Objects.requireNonNull(ASocialType.fromCode(identity.getSocialType())).name()
-                };
-            }
+            String[] audience = new String[]{
+                    String.valueOf(identity.getIdentifierType()),
+                    identity.getIdentifierValue()
+            };
             String jwtID = this.getJWTID(identity);
             String token = JWT.create()
                     /*设置头部信息 Header*/

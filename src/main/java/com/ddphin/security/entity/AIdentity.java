@@ -21,10 +21,7 @@ public class AIdentity {
     private Integer credentialType;
     private String credentialValue;
 
-    private Integer socialType;
-    private String socialValue;
-
-    private Map<String, Object> socialExtra;
+    private Map<String, Object> data;
 
     private String invitationCode;
     private String ip;

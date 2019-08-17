@@ -31,16 +31,14 @@ public class AJwtAuthenticationToken extends AbstractAuthenticationToken {
 
         List<String> audiences = jwt.getAudience();
         Long userId = Long.valueOf(jwt.getSubject());
-        String identifierType = audiences.get(0);
+        int identifierType = Integer.valueOf(audiences.get(0));
+        String identifierValue = audiences.get(1);
 
         AIdentity identity = new AIdentity();
         identity.setIp(ip);
         identity.setUserId(userId);
-        identity.setIdentifierType(AIdentifierType.valueOf(identifierType).ordinal());
-        if (1 < audiences.size()) {
-            String socialType = audiences.get(1);
-            identity.setSocialType(ASocialType.valueOf(socialType).ordinal());
-        }
+        identity.setIdentifierType(identifierType);
+        identity.setIdentifierValue(identifierValue);
         this.setDetails(identity);
     }
 

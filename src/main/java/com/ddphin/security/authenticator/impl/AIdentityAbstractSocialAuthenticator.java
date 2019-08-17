@@ -32,39 +32,33 @@ public abstract class AIdentityAbstractSocialAuthenticator implements AIdentityA
             AuthenticationService authenticationService) throws AuthenticationException {
         AIdentity aIdentity = (AIdentity) authentication.getDetails();
 
-        ASocialProvider socialProvider = ASocialProviderHolder.get(ASocialType.fromCode(aIdentity.getSocialType()));
-        ASocialDetail socialInfo = socialProvider.querySocialDetail(aIdentity.getCredentialValue(), aIdentity.getSocialExtra());
+        int socialType = Integer.parseInt(aIdentity.getIdentifierValue());
+        ASocialProvider socialProvider = ASocialProviderHolder.get(ASocialType.fromCode(socialType));
+        ASocialDetail socialInfo = socialProvider.querySocialDetail(aIdentity.getCredentialValue(), aIdentity.getData());
         if (null == socialInfo || null == socialInfo.getUnionid() || null == socialInfo.getOpenid()) {
             throw new BadCredentialsException("Authentication Failed");
         }
-        aIdentity.setIdentifierValue(socialInfo.getUnionid());
-        aIdentity.setSocialValue(socialInfo.getOpenid());
+
         AIdentifier uIdentifier =  authenticationService.queryIdentifier(aIdentity.getIdentifierType(), socialInfo.getUnionid());
 
         if (null == uIdentifier) {
             Long userId = authenticationService.nextUserId();
             aIdentity.setUserId(userId);
 
-            authenticationService.saveIdentifier(userId, aIdentity.getIdentifierType(), aIdentity.getIdentifierValue());
+            authenticationService.saveIdentifier(userId, aIdentity.getIdentifierType(), socialInfo.getUnionid());
 
             authenticationService.saveUser(userId,  aIdentity.getInvitationCode(), socialInfo);
-        }
-        else if (!uIdentifier.getIdentifierValue().equals(aIdentity.getIdentifierValue())) {
-            throw new BadCredentialsException("Authentication Failed");
         }
         else {
             aIdentity.setUserId(uIdentifier.getUserId());
         }
 
-        ASocial social = authenticationService.querySocial(aIdentity.getUserId(), aIdentity.getIdentifierType(), aIdentity.getSocialType());
+        ASocial social = authenticationService.querySocial(aIdentity.getUserId(), aIdentity.getIdentifierType(), socialType);
         if (null == social) {
-            authenticationService.saveSocial(aIdentity.getUserId(), aIdentity.getIdentifierType(), aIdentity.getSocialType(), socialInfo);
-        }
-        else if (!social.getSocialValue().equals(aIdentity.getSocialValue())) {
-            throw new BadCredentialsException("Authentication Failed");
+            authenticationService.saveSocial(aIdentity.getUserId(), aIdentity.getIdentifierType(), socialType, socialInfo);
         }
         else {
-            authenticationService.updateSocial(aIdentity.getUserId(), aIdentity.getIdentifierType(), aIdentity.getSocialType(), socialInfo);
+            authenticationService.updateSocial(aIdentity.getUserId(), aIdentity.getIdentifierType(), socialType, socialInfo);
         }
 
         List<String> permissionIdList = authenticationService.queryPermissionIdList(aIdentity.getUserId());

@@ -33,12 +33,12 @@ public class AIdentityMobileValidCodeAuthenticator implements AIdentityAuthentic
         }
         authenticationService.removeValidCode(mobile);
 
-        AIdentifier uIdentifier =  authenticationService.queryIdentifier(aIdentity.getIdentifierType(), aIdentity.getIdentifierValue());
+        AIdentifier uIdentifier =  authenticationService.queryIdentifier(aIdentity.getIdentifierType(), mobile);
 
         if (null == uIdentifier) {
             Long userId = authenticationService.nextUserId();
 
-            authenticationService.saveIdentifier(userId, aIdentity.getIdentifierType(), aIdentity.getIdentifierValue());
+            authenticationService.saveIdentifier(userId, aIdentity.getIdentifierType(), mobile);
 
             aIdentity.setUserId(userId);
             authenticationService.saveUser(userId, aIdentity.getInvitationCode(), mobile);

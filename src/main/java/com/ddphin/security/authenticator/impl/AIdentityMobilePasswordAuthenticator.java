@@ -33,8 +33,6 @@ public class AIdentityMobilePasswordAuthenticator implements AIdentityAuthentica
             ACredential uCredential =  authenticationService.queryCredential(uIdentifier.getUserId(), aIdentity.getCredentialType());
             if (null != uCredential && new BCryptPasswordEncoder().matches(aIdentity.getCredentialValue(), uCredential.getCredentialValue())) {
                 aIdentity.setUserId(uIdentifier.getUserId());
-                aIdentity.setIdentifierValue(uIdentifier.getIdentifierValue());
-                aIdentity.setCredentialValue(uCredential.getCredentialValue());
                 List<String> permissionIdList = authenticationService.queryPermissionIdList(aIdentity.getUserId());
                 return new AIdentityAuthenticationToken(aIdentity, permissionIdList);
             }
