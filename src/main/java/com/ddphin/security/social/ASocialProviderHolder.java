@@ -1,7 +1,5 @@
 package com.ddphin.security.social;
 
-import com.ddphin.security.entity.ASocialType;
-
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -12,9 +10,9 @@ import java.util.concurrent.ConcurrentHashMap;
  * @Author ddphin
  */
 public class ASocialProviderHolder {
-    private static final Map<ASocialType, ASocialProvider> map = new ConcurrentHashMap<>();
+    private static final Map<Integer, ASocialProvider> map = new ConcurrentHashMap<>();
 
-    public static ASocialProvider get(ASocialType type) {
+    public static ASocialProvider get(Integer type) {
         return map.get(type);
     }
     public static void add(ASocialProvider provider) {

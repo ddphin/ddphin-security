@@ -1,15 +1,14 @@
 package com.ddphin.security.authenticator.impl;
 
-import com.ddphin.security.endpoint.service.AuthenticationService;
 import com.ddphin.security.authenticator.AIdentityAuthenticator;
 import com.ddphin.security.endpoint.entity.AIdentifier;
-import com.ddphin.security.entity.AIdentity;
 import com.ddphin.security.endpoint.entity.ASocial;
-import com.ddphin.security.social.ASocialProviderHolder;
 import com.ddphin.security.endpoint.entity.ASocialDetail;
+import com.ddphin.security.endpoint.service.AuthenticationService;
+import com.ddphin.security.entity.AIdentity;
 import com.ddphin.security.social.ASocialProvider;
+import com.ddphin.security.social.ASocialProviderHolder;
 import com.ddphin.security.token.AIdentityAuthenticationToken;
-import com.ddphin.security.entity.ASocialType;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -33,7 +32,7 @@ public abstract class AIdentityAbstractSocialAuthenticator implements AIdentityA
         AIdentity aIdentity = (AIdentity) authentication.getDetails();
 
         int socialType = Integer.parseInt(aIdentity.getIdentifierValue());
-        ASocialProvider socialProvider = ASocialProviderHolder.get(ASocialType.fromCode(socialType));
+        ASocialProvider socialProvider = ASocialProviderHolder.get(socialType);
         ASocialDetail socialInfo = socialProvider.querySocialDetail(aIdentity.getCredentialValue(), aIdentity.getData());
         if (null == socialInfo || null == socialInfo.getUnionid() || null == socialInfo.getOpenid()) {
             throw new BadCredentialsException("Authentication Failed");

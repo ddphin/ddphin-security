@@ -1,6 +1,5 @@
 package com.ddphin.security.social;
 
-import com.ddphin.security.entity.ASocialType;
 import com.ddphin.security.endpoint.entity.ASocialDetail;
 
 import java.util.Map;
@@ -12,6 +11,6 @@ import java.util.Map;
  * @Author ddphin
  */
 public interface ASocialProvider {
-    ASocialType socialType();
+    Integer socialType();
     ASocialDetail querySocialDetail(String code, Map<String, Object> socialExtra);
 }

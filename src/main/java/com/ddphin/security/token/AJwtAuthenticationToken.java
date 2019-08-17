@@ -2,8 +2,6 @@ package com.ddphin.security.token;
 
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.ddphin.security.entity.AIdentity;
-import com.ddphin.security.entity.AIdentifierType;
-import com.ddphin.security.entity.ASocialType;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
