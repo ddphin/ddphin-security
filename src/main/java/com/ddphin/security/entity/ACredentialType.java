@@ -11,13 +11,4 @@ public enum ACredentialType {
     VALID_CODE,
     GRANT_CODE,
     ;
-
-    public static ACredentialType fromCode(int code) {
-        for (ACredentialType t : values()) {
-            if (t.ordinal() == code) {
-                return t;
-            }
-        }
-        return null;
-    }
 }

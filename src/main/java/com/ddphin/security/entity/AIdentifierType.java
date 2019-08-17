@@ -9,14 +9,6 @@ package com.ddphin.security.entity;
 public enum AIdentifierType {
     MOBILE,
     WX,
-    QQ;
-
-    public static AIdentifierType fromCode(int code) {
-        for (AIdentifierType t : values()) {
-            if (t.ordinal() == code) {
-                return t;
-            }
-        }
-        return null;
-    }
+    QQ,
+    ;
 }
