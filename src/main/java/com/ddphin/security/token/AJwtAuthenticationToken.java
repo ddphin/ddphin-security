@@ -23,9 +23,10 @@ public class AJwtAuthenticationToken extends AbstractAuthenticationToken {
         this.setDetails(jwt);
         this.ip = ip;
     }
-    public AJwtAuthenticationToken(DecodedJWT jwt, String ip) {
+    public AJwtAuthenticationToken(DecodedJWT jwt) {
         super(jwt.getClaim("Authority").asList(String.class).stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList()));
         this.setAuthenticated(true);
+        this.ip = jwt.getClaim("ip").asString();
 
         List<String> audiences = jwt.getAudience();
         Long userId = Long.valueOf(jwt.getSubject());
@@ -33,7 +34,7 @@ public class AJwtAuthenticationToken extends AbstractAuthenticationToken {
         String identifierValue = audiences.get(1);
 
         AIdentity identity = new AIdentity();
-        identity.setIp(ip);
+        identity.setIp(this.ip);
         identity.setUserId(userId);
         identity.setIdentifierType(identifierType);
         identity.setIdentifierValue(identifierValue);

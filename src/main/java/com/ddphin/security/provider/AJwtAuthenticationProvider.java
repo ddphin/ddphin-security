@@ -26,7 +26,7 @@ public class AJwtAuthenticationProvider implements AuthenticationProvider {
         AJwtAuthenticationToken jwtToken = (AJwtAuthenticationToken) authentication;
         String token = (String) jwtToken.getDetails();
         DecodedJWT jwt = jwtService.validate(token, jwtToken.getIp());
-        AJwtAuthenticationToken authenticationToken = new AJwtAuthenticationToken(jwt, jwtToken.getIp());
+        AJwtAuthenticationToken authenticationToken = new AJwtAuthenticationToken(jwt);
         return authenticationToken;
     }
 
