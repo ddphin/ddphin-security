@@ -35,4 +35,20 @@ public interface AuthenticationService {
     ASocial querySocial(Long userId, Integer identifierType, Integer socialType);
     void saveSocial(Long userId, Integer identifierType, Integer socialType, ASocialDetail socialDetail);
     void updateSocial(Long userId, Integer identifierType, Integer socialType, ASocialDetail socialDetail);
+
+    // url
+    default String getLoginUrl() {
+        return "/login";
+    }
+
+    default String getLogoutUrl() {
+        return "/logout";
+    }
+
+    default String[] getPermissiveUrl() {
+        return new String[] {
+                this.getLoginUrl(),
+                this.getLogoutUrl()
+        };
+    }
 }
