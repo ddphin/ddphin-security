@@ -28,7 +28,7 @@
 
     <groupId>com.github.ddphin</groupId>
     <artifactId>ddphin-security</artifactId>
-    <version>1.0.4</version>
+    <version>1.0.5</version>
     <packaging>jar</packaging>
 
     <name>ddphin-security</name>
