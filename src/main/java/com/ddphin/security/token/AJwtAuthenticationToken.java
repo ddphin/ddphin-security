@@ -1,9 +1,9 @@
 package com.ddphin.security.token;
 
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.ddphin.security.entity.AGrantedAuthority;
 import com.ddphin.security.entity.AIdentity;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,7 +24,7 @@ public class AJwtAuthenticationToken extends AbstractAuthenticationToken {
         this.ip = ip;
     }
     public AJwtAuthenticationToken(DecodedJWT jwt) {
-        super(jwt.getClaim("Authority").asList(String.class).stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList()));
+        super(jwt.getClaim("Authority").asList(String.class).stream().map(AGrantedAuthority::new).collect(Collectors.toList()));
         this.setAuthenticated(true);
         this.ip = jwt.getClaim("ip").asString();
 

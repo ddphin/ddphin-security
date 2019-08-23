@@ -1,8 +1,8 @@
 package com.ddphin.security.token;
 
+import com.ddphin.security.entity.AGrantedAuthority;
 import com.ddphin.security.entity.AIdentity;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,7 +20,7 @@ public class AIdentityAuthenticationToken extends AbstractAuthenticationToken {
         this.setDetails(identity);
     }
     public AIdentityAuthenticationToken(AIdentity identity, List<String> permissionIdList) {
-        super(permissionIdList.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList()));
+        super(permissionIdList.stream().map(AGrantedAuthority::new).collect(Collectors.toList()));
         this.setAuthenticated(true);
         this.setDetails(identity);
     }

@@ -1,9 +1,9 @@
 package com.ddphin.security.decide;
 
+import com.ddphin.security.entity.AGrantedAuthority;
 import com.ddphin.security.entity.APemissionSecurityConfig;
 import org.springframework.security.access.AccessDecisionVoter;
 import org.springframework.security.access.ConfigAttribute;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.FilterInvocation;
@@ -37,17 +37,21 @@ public class APermissionBasedVoter implements AccessDecisionVoter<Object> {
         if (null == authentication) {
             return ACCESS_DENIED;
         }
-        if (AnonymousAuthenticationToken.class.isAssignableFrom(authentication.getClass())) {
-            return ACCESS_DENIED;
-        }
 
-        Collection<ConfigAttribute> needAuthorities = attributes.stream().filter(this::supports).collect(Collectors.toList());
+        Collection<ConfigAttribute> needAuthorities =
+                attributes.stream().filter(this::supports).collect(Collectors.toList());
 
         if (CollectionUtils.isEmpty(needAuthorities)) {
             return ACCESS_GRANTED;
         }
 
-        Collection<? extends GrantedAuthority> hasAuthorities = authentication.getAuthorities();
+        if (CollectionUtils.isEmpty(authentication.getAuthorities())) {
+            return ACCESS_DENIED;
+        }
+
+        Collection<? extends GrantedAuthority> hasAuthorities =
+                authentication.getAuthorities().stream().filter(
+                        o -> o instanceof AGrantedAuthority).collect(Collectors.toList());
 
         if (CollectionUtils.isEmpty(hasAuthorities)) {
             return ACCESS_DENIED;
