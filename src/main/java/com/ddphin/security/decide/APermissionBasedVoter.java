@@ -2,6 +2,8 @@ package com.ddphin.security.decide;
 
 import com.ddphin.security.entity.AGrantedAuthority;
 import com.ddphin.security.entity.APemissionSecurityConfig;
+import com.ddphin.security.token.AIdentityAuthenticationToken;
+import com.ddphin.security.token.AJwtAuthenticationToken;
 import org.springframework.security.access.AccessDecisionVoter;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.core.Authentication;
@@ -29,40 +31,35 @@ public class APermissionBasedVoter implements AccessDecisionVoter<Object> {
         return FilterInvocation.class.isAssignableFrom(clazz);
     }
 
+    private boolean supports(Authentication authentication) {
+        return authentication instanceof AJwtAuthenticationToken;
+    }
+    private Collection<ConfigAttribute> getRequiredAuthorities(Collection<ConfigAttribute> attributes) {
+        return CollectionUtils.isEmpty(attributes) ? attributes :
+                attributes.stream().filter(this::supports).collect(Collectors.toList());
+    }
+    private boolean hasRequiredAuthorities(Authentication authentication, Collection<ConfigAttribute> attributes) {
+        return !CollectionUtils.isEmpty(authentication.getAuthorities()) &&
+                attributes.stream().allMatch(o ->
+                        authentication.getAuthorities().stream().anyMatch(t ->
+                                t.getAuthority().equals(o.getAttribute())));
+    }
+
     @Override
     public int vote(Authentication authentication, Object object, Collection<ConfigAttribute> attributes) {
-        if (CollectionUtils.isEmpty(attributes)) {
+        Collection<ConfigAttribute> requiredAuthorities = this.getRequiredAuthorities(attributes);
+
+        if (CollectionUtils.isEmpty(requiredAuthorities)) {
             return ACCESS_GRANTED;
         }
-        if (null == authentication) {
+        else if(!this.supports(authentication)) {
             return ACCESS_DENIED;
         }
-
-        Collection<ConfigAttribute> needAuthorities =
-                attributes.stream().filter(this::supports).collect(Collectors.toList());
-
-        if (CollectionUtils.isEmpty(needAuthorities)) {
+        else if (this.hasRequiredAuthorities(authentication, requiredAuthorities)) {
             return ACCESS_GRANTED;
         }
-
-        if (CollectionUtils.isEmpty(authentication.getAuthorities())) {
+        else {
             return ACCESS_DENIED;
         }
-
-        Collection<? extends GrantedAuthority> hasAuthorities =
-                authentication.getAuthorities().stream().filter(
-                        o -> o instanceof AGrantedAuthority).collect(Collectors.toList());
-
-        if (CollectionUtils.isEmpty(hasAuthorities)) {
-            return ACCESS_DENIED;
-        }
-
-        if (attributes.stream().allMatch(o ->
-                hasAuthorities.stream().anyMatch(t ->
-                        t.getAuthority().equals(o.getAttribute())))) {
-            return ACCESS_GRANTED;
-        }
-
-        return ACCESS_DENIED;
     }
 }
