@@ -47,13 +47,14 @@ public class APermissionBasedVoter implements AccessDecisionVoter<Object> {
 
     @Override
     public int vote(Authentication authentication, Object object, Collection<ConfigAttribute> attributes) {
+        if(!this.supports(authentication)) {
+            return ACCESS_ABSTAIN;
+        }
+
         Collection<ConfigAttribute> requiredAuthorities = this.getRequiredAuthorities(attributes);
 
         if (CollectionUtils.isEmpty(requiredAuthorities)) {
             return ACCESS_GRANTED;
-        }
-        else if(!this.supports(authentication)) {
-            return ACCESS_DENIED;
         }
         else if (this.hasRequiredAuthorities(authentication, requiredAuthorities)) {
             return ACCESS_GRANTED;
