@@ -9,6 +9,7 @@ import com.ddphin.security.entity.AIdentity;
 import com.ddphin.security.social.ASocialProvider;
 import com.ddphin.security.social.ASocialProviderHolder;
 import com.ddphin.security.token.AIdentityAuthenticationToken;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
@@ -27,6 +28,7 @@ import java.util.List;
  * @Date 2019/7/17 下午8:36
  * @Author ddphin
  */
+@Slf4j
 public abstract class AIdentityAbstractAuthenticator implements AIdentityAuthenticator {
     public abstract Authentication doAuthentication(
             Authentication authentication,
@@ -52,6 +54,7 @@ public abstract class AIdentityAbstractAuthenticator implements AIdentityAuthent
         }
         catch (Exception e) {
             dataSourceTransactionManager.rollback(status);
+            log.error("authenticate error", e);
             throw new BadCredentialsException("Authentication Failed");
         }
     }
