@@ -12,8 +12,6 @@ import com.ddphin.security.token.AIdentityAuthenticationToken;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -23,10 +21,9 @@ import java.util.List;
  * @Date 2019/7/17 下午8:36
  * @Author ddphin
  */
-public abstract class AIdentityAbstractSocialAuthenticator implements AIdentityAuthenticator {
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor=Exception.class)
+public abstract class AIdentityAbstractSocialAuthenticator extends AIdentityAbstractAuthenticator implements AIdentityAuthenticator {
     @Override
-    public Authentication authenticate(
+    public Authentication doAuthentication(
             Authentication authentication,
             AuthenticationService authenticationService) throws AuthenticationException {
         AIdentity aIdentity = (AIdentity) authentication.getDetails();

@@ -2,6 +2,7 @@ package com.ddphin.security.authenticator;
 
 import com.ddphin.security.entity.AIdentity;
 import com.ddphin.security.endpoint.service.AuthenticationService;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 
@@ -14,7 +15,8 @@ import org.springframework.security.core.AuthenticationException;
 public interface AIdentityAuthenticator {
 
     Authentication authenticate(Authentication authentication,
-                                AuthenticationService authenticationService) throws AuthenticationException;
+                                AuthenticationService authenticationService,
+                                DataSourceTransactionManager dataSourceTransactionManager) throws AuthenticationException;
 
     AIdentity supports();
 }
