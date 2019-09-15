@@ -14,4 +14,6 @@ public interface AJWTService {
     void remove(String token);
 
     DecodedJWT validate(String token, String ip);
+
+    default void onSuccess() {}
 }

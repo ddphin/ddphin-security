@@ -28,5 +28,6 @@ public class AJwtAuthenticationSuccessHandler
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         String token = jwtService.refresh();
         ResponseHelper.setToken(response, token);
+        jwtService.onSuccess();
     }
 }

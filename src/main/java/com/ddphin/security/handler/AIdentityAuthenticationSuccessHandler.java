@@ -28,5 +28,6 @@ public class AIdentityAuthenticationSuccessHandler
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         String token = jwtService.create();
         ResponseHelper.setToken(response, token);
+        jwtService.onSuccess();
     }
 }
